@@ -5,6 +5,13 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      poppins: ['Poppins', 'sans-serif'],
+      mono: ["Share Tech Mono", "monospace"],
+      roboto: ["Roboto", "sans-serif"],
+      karla: ["Karla", "sans-serif"],
+      overpass: ["Overpass", "sans-serif"]
+    },
   },
   plugins: [],
 }
