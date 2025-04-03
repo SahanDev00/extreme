@@ -24,7 +24,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className='w-full h-[50px] bg-stone-900 fixed z-50'>
+    <div className='w-full h-[50px] bg-stone-900/90 hover:bg-stone-900 duration-500 backdrop-blur-sm fixed z-50'>
       <div className='w-[96%] md:w-full lg:w-[90%] xl:w-[70%] 2xl:w-[55%] mx-auto h-full flex justify-between md:justify-evenly items-center'>
         <img src={logo} alt="" className='h-full py-2' />
 
@@ -32,7 +32,7 @@ const Navbar = () => {
           <p className='hidden md:block text-xs font-overpass font-light text-gray-200 hover:text-white cursor-pointer p-2'>Store</p>
           <div className='w-screen left-0 top-[50px] h-[0px] absolute bg-stone-900 group-hover:h-[400px] duration-500 overflow-hidden'>
               <div className='md:w-full lg:w-[90%] xl:w-[70%] 2xl:w-[55%] flex h-full mx-auto'>
-                <div className=' flex flex-col justify-center p-4 opacity-0 group-hover:opacity-100 duration-1000'>
+                <div className='flex flex-col justify-center p-4 opacity-0 group-hover:opacity-100 duration-1000'>
                     <h1 className='text-gray-400 font-overpass text-sm'>Shop</h1>
                     <p className='text-3xl text-gray-200 font-karla font-semibold mb-1'>Shop The Latest</p>
                     <p className='text-3xl text-gray-200 hover:text-white font-karla font-semibold cursor-pointer mb-1'>Mac</p>
