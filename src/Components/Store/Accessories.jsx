@@ -92,7 +92,7 @@ const Accessories = () => {
     ]
   
     return (
-      <div className='w-full mt-[50px] xl:h-[650px] flex flex-col items-end mb-10'>
+      <div className='w-full mt-[50px] xl:h-[650px] flex flex-col items-end pb-10'>
         <div className='w-[93%] flex flex-col justify-center'>
           <h1 className='text-2xl sm:text-2xl font-roboto font-semibold'>
             Accessories. <span className='text-gray-500'>Essentials that pair perfectly with your favorite devices.</span>

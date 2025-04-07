@@ -40,7 +40,7 @@ const Index = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/Item?CategoryMainID=CTM_0021`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/Item?CategoryMainID=CTM_0017`, {
         headers: {
           'APIKey' : process.env.REACT_APP_API_KEY
         }
@@ -58,29 +58,11 @@ const Index = () => {
 
   const fetchSubProducts = async (SubID) => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/Item?CategoryMainID=CTM_0021&CategorySubID=${SubID}`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/Item?CategoryMainID=CTM_0017&CategorySubID=${SubID}`, {
         headers: {
           'APIKey' : process.env.REACT_APP_API_KEY
         }
       })
-
-      const sortedData = response.data.data.sort((a, b) =>
-        a.stockAvailable === 'A' ? -1 : b.stockAvailable === 'A' ? 1 : 0
-      );
-      setItems(sortedData);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const fetchBrandProducts = async (BrandID) => {
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/Item?CategoryMainID=CTM_0021&BrandID=${BrandID}`, {
-        headers: {
-          'APIKey' : process.env.REACT_APP_API_KEY
-        }
-      })
-      fetchBrandName(BrandID);
 
       const sortedData = response.data.data.sort((a, b) =>
         a.stockAvailable === 'A' ? -1 : b.stockAvailable === 'A' ? 1 : 0
@@ -93,12 +75,29 @@ const Index = () => {
 
   const fetchSubCategories = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/CategorySub?CategoryMainID=CTM_0021`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/CategorySub?CategoryMainID=CTM_0017`, {
         headers: {
           'APIKey' : process.env.REACT_APP_API_KEY
         }
       })
       setSubCategories(response.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchBrandProducts = async (BrandID) => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/Item?CategoryMainID=CTM_0017&BrandID=${BrandID}`, {
+        headers: {
+          'APIKey' : process.env.REACT_APP_API_KEY
+        }
+      })
+      fetchBrandName(BrandID);
+      const sortedData = response.data.data.sort((a, b) =>
+        a.stockAvailable === 'A' ? -1 : b.stockAvailable === 'A' ? 1 : 0
+      );
+      setItems(sortedData);
     } catch (err) {
       console.log(err);
     }
@@ -188,7 +187,7 @@ const Index = () => {
     <div className='w-full min-h-screen pt-[50px]'>
             <div className='w-[85%] mx-auto h-[200px] md:h-[200px] flex flex-col justify-center'>
                 <h1 className='text-3xl sm:text-4xl md:text-5xl font-roboto font-semibold md:w-[700px]'>
-                    Laptops. <span className='text-gray-500'>The best place to start your laptop journey.</span>
+                    Monitors. <span className='text-gray-500'>Quality with Higher Frames.</span>
                 </h1>
             </div>
 
@@ -226,12 +225,12 @@ const Index = () => {
             
             <div className='w-[90%] 2xl:w-[85%] mx-auto my-10 md:flex items-center justify-between'>
               {brandName ? (
-                <h1 className='text-3xl font-roboto font-semibold'><span className='text-gray-600'>{brandName}</span> Laptops</h1>
+                <h1 className='text-3xl font-roboto font-semibold'><span className='text-gray-600'>{brandName}</span> Monitors</h1>
                 ) : (
-                <h1 className='text-3xl font-roboto font-semibold'><span className='text-gray-600'>All</span> Laptops</h1>
+                <h1 className='text-3xl font-roboto font-semibold'><span className='text-gray-600'>All</span> Monitors</h1>
               )}
               <select onChange={(e) => fetchSubProducts(e.target.value)} className='w-[200px] mt-3 md:mt-0 md:py-2 border font-karla p-1 md:px-2 cursor-pointer outline-none' name="subCats" id="subCats">
-                <option key='' value="">No Filters</option>
+                <option value="">No Filters</option>
                 {subCategories.map((sub) => (
                   <option key={sub.categorySubID} value={sub.categorySubID}>{sub.categorySubName}</option>
                 ))}

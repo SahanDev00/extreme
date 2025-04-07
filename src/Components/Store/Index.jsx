@@ -18,16 +18,16 @@ import "slick-carousel/slick/slick-theme.css";
 const Index = () => {
 
     const categories = [
-        { name: 'Computers', img: computer, link: '/' },
-        { name: 'Monitors', img: monitor, link: '/' },
-        { name: 'Laptops', img: laptop, link: '/' },
-        { name: 'Phones', img: phones, link: '/' },
-        { name: 'Headsets', img: headset, link: '/' },
-        { name: 'Keyboards / Mouse', img: keyboardMouse, link: '/' },
-        { name: 'Motherboards', img: motherboard, link: '/' },
-        { name: 'Graphic Cards', img: gpu, link: '/' },
-        { name: 'Hard Drives', img: hdd, link: '/' },
-        { name: 'Subwoofers', img: woofer, link: '/' }
+        { name: 'Computers', img: computer, link: '/computers' },
+        { name: 'Monitors', img: monitor, link: '/monitors' },
+        { name: 'Laptops', img: laptop, link: '/laptops' },
+        { name: 'Phones', img: phones, link: '/phones' },
+        { name: 'Headsets', img: headset, link: '/headsets' },
+        { name: 'Keyboards / Mouse', img: keyboardMouse, link: '/keyboards-mouse' },
+        { name: 'Motherboards', img: motherboard, link: '/motherboards' },
+        { name: 'Graphic Cards', img: gpu, link: '/graphic-cards' },
+        { name: 'Hard Drives', img: hdd, link: '/hard-drives' },
+        { name: 'Subwoofers', img: woofer, link: '/sub-woofers' }
     ];
 
     const sliderSettings = {
