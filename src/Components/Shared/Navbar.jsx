@@ -392,7 +392,7 @@ const Navbar = () => {
           <div className='relative'> 
             <MdOutlineShoppingBag onClick={() => toggleBag()} className={`hidden md:block cursor-pointer size-5 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-800'}`} />
             {getTotalItems() > 0 && (
-                <p className='absolute -top-2 -right-4 bg-gray-600 text-white rounded-full px-1 text-xs hidden md:block'>{getTotalItems()}</p>
+                <p className='absolute -top-2 -right-4 bg-gray-500 text-white rounded-full px-1 text-xs hidden md:block'>{getTotalItems()}</p>
             )}
           </div>
 

@@ -244,7 +244,7 @@ const Index = () => {
             
             <div className='w-[90%] 2xl:w-[85%] mx-auto my-10 md:flex items-center justify-between'>
               {brandName ? (
-                <h1 className='text-3xl font-roboto font-semibold'><span className='text-gray-600'>{brandName}</span> Keyboards adn Mouse</h1>
+                <h1 className='text-3xl font-roboto font-semibold'><span className='text-gray-600'>{brandName}</span> Keyboards and Mouse</h1>
                 ) : (
                 <h1 className='text-3xl font-roboto font-semibold'><span className='text-gray-600'>All</span> Keyboards and Mouse</h1>
               )}
