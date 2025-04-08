@@ -107,8 +107,8 @@ const Phones = () => {
         </div>
         <div className='w-[96%] sm:w-[94%] h-full overflow-hidden p-2 mx-auto'>
           <Slider {...settings}>
-            {items.map((item) => (
-              <div className='sm:pl-2 h-[550px] sm:h-[500px] md:h-[480px] lg:h-[500px] xl:h-[670px]'>
+            {items.map((item, index) => (
+              <div key={index} className='sm:pl-2 h-[550px] sm:h-[500px] md:h-[480px] lg:h-[500px] xl:h-[670px]'>
                 <Link to={`/items/${item.itemID}`}>
                   <div className='2xl:w-[410px] mx-auto lg:h-[400px] 2xl:h-[520px] mt-7 rounded-2xl shadow-md bg-white cursor-pointer hover:shadow-lg hover:scale-[102%] duration-300'>
                       <div className='p-8'>

@@ -128,8 +128,8 @@ const Index = () => {
 
             <div className='w-[85%] mx-auto grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 pb-10'>
               {items.length > 0 ? 
-                items.map((item) => (
-                  <div className='w-full mx-auto h-[450px] flex flex-col items-center justify-center rounded-2xl bg-white shadow hover:shadow-lg hover:scale-[102%] cursor-pointer duration-300'>
+                items.map((item, index) => (
+                  <div key={index} className='w-full mx-auto h-[450px] flex flex-col items-center justify-center rounded-2xl bg-white shadow hover:shadow-lg hover:scale-[102%] cursor-pointer duration-300'>
                     <img src={productImages[item.itemID] || 'https://media.istockphoto.com/id/1396814518/vector/image-coming-soon-no-photo-no-thumbnail-image-available-vector-illustration.jpg?s=612x612&w=0&k=20&c=hnh2OZgQGhf0b46-J2z7aHbIWwq8HNlSDaNp2wn_iko='} className='h-[250px] mx-auto object-contain p-2 xl:p-3' alt="" />
                     <h1 className='text-2xl font-karla font-semibold mb-1 text-center w-[95%] mx-auto line-clamp-2' title={item.itemName}>{item.itemName}</h1>
                     <p className='font-semibold mt-1 font-karla text-lg text-blue-600'>

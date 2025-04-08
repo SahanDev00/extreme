@@ -105,10 +105,10 @@ const Features = () => {
             The Extreme difference.<span className='text-gray-500'> Even more reasons to shop with us.</span>
           </h1>
         </div>
-        <div className='w-full sm:w-[94%] h-full overflow-hidden p-2'>
+        <div className='w-full sm:w-[94%] h-full mx-auto overflow-hidden p-2'>
           <Slider {...settings}>
-            {items.map((item) => (
-                <div className='sm:pl-2 h-[220px] md:h-[280px] lg:h-[300px]'>
+            {items.map((item, index) => (
+                <div key={index} className='sm:pl-2 h-[220px] md:h-[280px] lg:h-[300px]'>
                     <div className='md:w-[220px] lg:w-[280px] sm:h-[170px] md:h-[230px] lg:h-[250px] bg-white mt-7 rounded-2xl shadow-md cursor-pointer hover:shadow-lg hover:scale-[102%] duration-300'>
                         <div className='w-full h-full p-5 md:p-7'>
                             <p className={`text-3xl lg:text-4xl mb-2 md:mb-3 ${item.colour}`}>{item.icon}</p>
