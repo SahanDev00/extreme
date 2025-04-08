@@ -40,7 +40,7 @@ const Orders = () => {
   }, [customerId]);
 
   if (orders.length === 0) {
-    return <div className='bg-white h-[85vh] w-full mx-auto pt-[50px]'>
+    return <div className='bg-white h-[85vh] w-full mx-auto pt-[50px] font-karla'>
       <h1 className='font-semibold mt-5 text-center'>You Don't Have Orders Yet!!!</h1>
     </div>
   }
