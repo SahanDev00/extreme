@@ -37,8 +37,8 @@ const Navbar = () => {
       })
 
       const itemsData = response.data.data.slice(0, 6).map(item => ({
-        itemName: item.ItemName,
-        Link: `/mac/${item.ItemID}`
+        itemName: item.itemName,
+        Link: `/items/${item.itemID}`
       }));
 
       setMacItems(itemsData);
@@ -55,8 +55,8 @@ const Navbar = () => {
       })
 
       const itemsData = response.data.data.slice(0, 6).map(item => ({
-        itemName: item.ItemName,
-        Link: `/iphones/${item.ItemID}`
+        itemName: item.itemName,
+        Link: `/items/${item.itemID}`
       }));
 
       setIphoneItems(itemsData);
@@ -73,8 +73,8 @@ const Navbar = () => {
       })
 
       const itemsData = response.data.data.slice(0, 6).map(item => ({
-        itemName: item.ItemName,
-        Link: `/laptops/${item.ItemID}`
+        itemName: item.itemName,
+        Link: `/items/${item.itemID}`
       }));
 
       setLaptopItems(itemsData);
@@ -91,8 +91,8 @@ const Navbar = () => {
       })
 
       const itemsData = response.data.data.slice(0, 6).map(item => ({
-        itemName: item.ItemName,
-        Link: `/computers/${item.ItemID}`
+        itemName: item.itemName,
+        Link: `/items/${item.itemID}`
       }));
 
       setComputerItems(itemsData);
@@ -109,8 +109,8 @@ const Navbar = () => {
       })
 
       const itemsData = response.data.data.slice(0, 6).map(item => ({
-        itemName: item.ItemName,
-        Link: `/monitors/${item.ItemID}`
+        itemName: item.itemName,
+        Link: `/items/${item.itemID}`
       }));
 
       setMonitorItems(itemsData);
@@ -127,8 +127,8 @@ const Navbar = () => {
       })
 
       const itemsData = response.data.data.slice(0, 6).map(item => ({
-        itemName: item.ItemName,
-        Link: `/keyboard-mouse/${item.ItemID}`
+        itemName: item.itemName,
+        Link: `/items/${item.itemID}`
       }));
 
       setKeyboardMouseItems(itemsData);
@@ -145,8 +145,8 @@ const Navbar = () => {
       })
 
       const itemsData = response.data.data.slice(0, 6).map(item => ({
-        itemName: item.ItemName,
-        Link: `/accessories/${item.ItemID}`
+        itemName: item.itemName,
+        Link: `/items/${item.itemID}`
       }));
 
       setAccessoriesItems(itemsData);
@@ -163,8 +163,8 @@ const Navbar = () => {
       })
 
       const itemsData = response.data.data.slice(0, 6).map(item => ({
-        itemName: item.ItemName,
-        Link: `/casings/${item.ItemID}`
+        itemName: item.itemName,
+        Link: `/items/${item.itemID}`
       }));
 
       setCasingItems(itemsData);
