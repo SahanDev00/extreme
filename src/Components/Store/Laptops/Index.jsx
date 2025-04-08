@@ -252,7 +252,7 @@ const Index = () => {
               )}
               <select onChange={(e) => fetchSubProducts(e.target.value)} className='w-[200px] mt-3 md:mt-0 md:py-2 border font-karla p-1 md:px-2 cursor-pointer outline-none' name="subCats" id="subCats">
                 <option key='' value="">No Filters</option>
-                {subCategories.map((sub) => (
+                {subCategories?.map((sub) => (
                   <option key={sub.categorySubID} value={sub.categorySubID}>{sub.categorySubName}</option>
                 ))}
               </select>
