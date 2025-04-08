@@ -36,7 +36,13 @@ const Navbar = () => {
         }
       })
 
-      const itemsData = response.data.data.slice(0, 6).map(item => ({
+      const rawData = response?.data?.data;
+
+      if (!Array.isArray(rawData)) {
+        return; // or set fallback state
+      }
+      
+      const itemsData = rawData.slice(0, 6).map(item => ({
         itemName: item.itemName,
         Link: `/items/${item.itemID}`
       }));
@@ -54,10 +60,16 @@ const Navbar = () => {
         }
       })
 
-      const itemsData = response.data.data.slice(0, 6).map(item => ({
+      const rawData = response?.data?.data;
+
+      if (!Array.isArray(rawData)) {
+        return; // or set fallback state
+      }
+      
+      const itemsData = rawData.slice(0, 6).map(item => ({
         itemName: item.itemName,
         Link: `/items/${item.itemID}`
-      }));
+      }));      
 
       setIphoneItems(itemsData);
     }
@@ -72,7 +84,13 @@ const Navbar = () => {
         }
       })
 
-      const itemsData = response.data.data.slice(0, 6).map(item => ({
+      const rawData = response?.data?.data;
+
+      if (!Array.isArray(rawData)) {
+        return; // or set fallback state
+      }
+      
+      const itemsData = rawData.slice(0, 6).map(item => ({
         itemName: item.itemName,
         Link: `/items/${item.itemID}`
       }));
@@ -90,7 +108,13 @@ const Navbar = () => {
         }
       })
 
-      const itemsData = response.data.data.slice(0, 6).map(item => ({
+      const rawData = response?.data?.data;
+
+      if (!Array.isArray(rawData)) {
+        return; // or set fallback state
+      }
+      
+      const itemsData = rawData.slice(0, 6).map(item => ({
         itemName: item.itemName,
         Link: `/items/${item.itemID}`
       }));
@@ -108,7 +132,13 @@ const Navbar = () => {
         }
       })
 
-      const itemsData = response.data.data.slice(0, 6).map(item => ({
+      const rawData = response?.data?.data;
+
+      if (!Array.isArray(rawData)) {
+        return; // or set fallback state
+      }
+      
+      const itemsData = rawData.slice(0, 6).map(item => ({
         itemName: item.itemName,
         Link: `/items/${item.itemID}`
       }));
@@ -126,7 +156,13 @@ const Navbar = () => {
         }
       })
 
-      const itemsData = response.data.data.slice(0, 6).map(item => ({
+      const rawData = response?.data?.data;
+
+      if (!Array.isArray(rawData)) {
+        return; // or set fallback state
+      }
+      
+      const itemsData = rawData.slice(0, 6).map(item => ({
         itemName: item.itemName,
         Link: `/items/${item.itemID}`
       }));
@@ -144,7 +180,13 @@ const Navbar = () => {
         }
       })
 
-      const itemsData = response.data.data.slice(0, 6).map(item => ({
+      const rawData = response?.data?.data;
+
+      if (!Array.isArray(rawData)) {
+        return; // or set fallback state
+      }
+      
+      const itemsData = rawData.slice(0, 6).map(item => ({
         itemName: item.itemName,
         Link: `/items/${item.itemID}`
       }));
@@ -162,7 +204,13 @@ const Navbar = () => {
         }
       })
 
-      const itemsData = response.data.data.slice(0, 6).map(item => ({
+      const rawData = response?.data?.data;
+
+      if (!Array.isArray(rawData)) {
+        return; // or set fallback state
+      }
+      
+      const itemsData = rawData.slice(0, 6).map(item => ({
         itemName: item.itemName,
         Link: `/items/${item.itemID}`
       }));
