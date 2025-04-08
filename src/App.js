@@ -21,6 +21,8 @@ import ProductView from "./Pages/ProductView/ProductView";
 import Cart from "./Pages/Cart/Cart";
 import CheckoutPage from "./Pages/Cart/CheckoutPage";
 import OrdersPage from "./Pages/Orders/OrdersPage";
+import ContactUsPage from "./Pages/Support/ContactUsPage";
+import AboutUsPage from "./Pages/Support/AboutUsPage";
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/contact" element={<ContactUsPage />} />
+          <Route path="/about" element={<AboutUsPage />} />
         </Routes>
         <Footer />
       </Router>

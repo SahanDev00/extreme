@@ -292,31 +292,15 @@ const Navbar = () => {
       name: 'Support',
       Heading: 'Explore Support',
       subHeading: '',
-      Link: '/support',
+      Link: '/contact',
       items: [
         {
-          itemName: 'Test Item 1',
-          Link: '/'
+          itemName: 'Contact Us',
+          Link: '/contact'
         },
         {
-          itemName: 'Test Item 2',
-          Link: '/'
-        },
-        {
-          itemName: 'Test Item 3',
-          Link: '/'
-        },
-        {
-          itemName: 'Test Item 4',
-          Link: '/'
-        },
-        {
-          itemName: 'Test Item 5',
-          Link: '/'
-        },
-        {
-          itemName: 'Test Item 6',
-          Link: '/'
+          itemName: 'About Us',
+          Link: '/about'
         }
       ]
     }
@@ -330,7 +314,7 @@ const Navbar = () => {
         </Link>
 
         {navItems.map((nav, index) => (
-          <div className='group h-full flex items-center'>
+          <div key={index} className='group h-full flex items-center'>
             <Link to={nav.Link}>
               <p className={`hidden md:block text-xs font-overpass font-light cursor-pointer p-2 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-black hover:text-gray-800'}`}>{nav.name}</p>
             </Link>
