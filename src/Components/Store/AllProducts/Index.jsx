@@ -1,7 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { BsCartPlus } from 'react-icons/bs';
+import { MdFilterAltOff } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
+import { useCart } from '../../Cart/CartContext';
+import { toast } from 'react-toastify';
 
 const Index = () => {
 
@@ -10,6 +14,12 @@ const Index = () => {
   const [productImages, setProductImages] = useState({}); 
   const [brandName, setBrandName] = useState(''); // Store images by item IDs
   const [subCategories, setSubCategories] = useState([]); 
+  const [expandedCategory, setExpandedCategory] = useState(null);
+  const { addToCart } = useCart(); 
+
+  const toggleCategory = (id) => {
+    setExpandedCategory(prev => prev === id ? null : id);
+  };
 
     const fetchImageData = async (itemID) => {
       try {
@@ -24,7 +34,7 @@ const Index = () => {
           if (data.success && data.data.length > 0) {
               setProductImages(prevImages => ({
                   ...prevImages,
-                  [itemID]: `${process.env.REACT_APP_IMG_URL}/${data.data[0].imageID}.jpg`
+                  [itemID]: `${process.env.REACT_APP_IMG_URL}/${data.data[0].imageID}.png`
               }));
           }
           } catch (error) {
@@ -74,7 +84,10 @@ const Index = () => {
             `${process.env.REACT_APP_API_URL}/Item?CategoryMainID=${categoryMainID}`,
             { headers: { APIKey: process.env.REACT_APP_API_KEY } }
         );
-        setItems(response.data.data);
+        const sortedData = response.data.data.sort((a, b) =>
+          a.stockAvailable === 'A' ? -1 : b.stockAvailable === 'A' ? 1 : 0
+        );
+        setItems(sortedData);
       } catch (err) {
           console.log(err);
       }
@@ -87,7 +100,10 @@ const Index = () => {
               `${process.env.REACT_APP_API_URL}/Item?CategorySubID=${categorySubID}`,
               { headers: { APIKey: process.env.REACT_APP_API_KEY } }
           );
-          setItems(response.data.data);
+          const sortedData = response.data.data.sort((a, b) =>
+            a.stockAvailable === 'A' ? -1 : b.stockAvailable === 'A' ? 1 : 0
+          );
+          setItems(sortedData);
       } catch (err) {
           console.log(err);
       }
@@ -134,7 +150,23 @@ const Index = () => {
     } catch (err) {
         console.log(err)
     }
-};
+  };
+
+  const handleAddToCart = (item) => {
+    addToCart({
+      ...item,
+      quantity: 1,
+    });
+    toast.success(item.itemName + ' Added To The Cart!', {
+      toastId: 1,
+      position: "top-right",
+      autoClose: 2000,
+    });
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   
   useEffect(() => {
     fetchProducts();
@@ -250,35 +282,57 @@ const Index = () => {
               )}
             </div>
 
-            <div className='w-[90%] mx-auto md:flex justify-between pb-10'>
+            <div className='w-[90%] 2xl:w-[85%] mx-auto md:flex justify-between pb-10'>
               <div className='w-[90%] mx-auto sm:mx-0 md:w-[250px] lg:w-[300px] xl:w-[250px] mb-10 md:mb-0'>
-                  <h1 className='text-gray-700 font-semibold text-lg mb-2'>Categories</h1>
-                  <hr />
-                  {categories.map((category) => (
-                      <div key={category.categoryMainID} className='w-full mt-2 text-lg text-gray-800 font-light'>
-                          <div className='flex gap-2'>
-                              <p className='font-karla cursor-pointer' onClick={() => {fetchCategoryProducts(category.categoryMainID); setBrandName(category.categoryMainName);}}>{category.categoryMainName}</p>
-                          </div>
+                <div className='w-full flex items-center justify-between'>
+                  <h1 className='text-gray-700 font-semibold text-lg mb-2 font-karla'>Categories</h1>
+                  {brandName && (
+                    <MdFilterAltOff className='cursor-pointer hover:text-red-500 size-5' title='Clear filters' onClick={() => {fetchProducts(); setBrandName('')}} />
+                  )}
+                  </div>
+                <hr />
+                {categories.map((category) => (
+                  <div key={category.categoryMainID} className='w-full mt-2 text-lg text-gray-800 font-light'>
+                    <div
+                      className='flex gap-2 cursor-pointer justify-between items-center'
+                      onClick={() => {
+                        toggleCategory(category.categoryMainID);
+                        fetchCategoryProducts(category.categoryMainID);
+                        setBrandName(category.categoryMainName);
+                      }}
+                    >
+                      <p className='font-karla'>{category.categoryMainName}</p>
+                      <span>{expandedCategory === category.categoryMainID ? '−' : '+'}</span>
+                    </div>
 
-                          {/* Filter subcategories by the current category */}
-                          <ul className='pl-4 mb-2 border-l'>
-                              {subCategories
-                                  .filter(subCategory => subCategory.categoryMainID === category.categoryMainID)
-                                  .map(subCategory => (
-                                      <div key={subCategory.categorySubID} className='flex gap-2'>
-                                          <p onClick={() => {fetchSubCategoryProducts(subCategory.categorySubID); setBrandName(subCategory.categorySubName);}} className='text-gray-700 text-[16px] cursor-pointer'>{subCategory.categorySubName}</p>
-                                      </div>
-                                  ))
-                              }
-                          </ul>
-                      </div>
-                  ))}
+                    {/* Collapsible Subcategory */}
+                    {expandedCategory === category.categoryMainID && (
+                      <ul className='pl-4 mb-2 border-l transition-all duration-300 ease-in-out'>
+                        {subCategories
+                          .filter(subCategory => subCategory.categoryMainID === category.categoryMainID)
+                          .map(subCategory => (
+                            <div key={subCategory.categorySubID} className='flex gap-2'>
+                              <p
+                                onClick={() => {
+                                  fetchSubCategoryProducts(subCategory.categorySubID);
+                                  setBrandName(subCategory.categorySubName);
+                                }}
+                                className='text-gray-700 text-[16px] cursor-pointer'
+                              >
+                                • {subCategory.categorySubName}
+                              </p>
+                            </div>
+                          ))}
+                      </ul>
+                    )}
+                  </div>
+                ))}
               </div>
             
-              <div className='w-[90%] xl:w-[80%] mx-auto grid sm:grid-cols-2 xl:grid-cols-3 gap-5 pb-10'>
+              <div className='w-[90%] xl:w-[80%] grid sm:grid-cols-2 xl:grid-cols-3 gap-8 pb-10'>
                 {items.length > 0 ? 
                   items.map((item) => (
-                    <div className='w-full mx-auto h-[400px] lg:h-[450px] flex flex-col items-center justify-center rounded-2xl bg-white shadow hover:shadow-lg hover:scale-[102%] cursor-pointer duration-300'>
+                    <div className='w-full h-[400px] mx-auto lg:h-[450px] flex flex-col items-center justify-center rounded-2xl bg-white shadow hover:shadow-lg hover:scale-[102%] duration-300'>
                       <img src={productImages[item.itemID] || 'https://media.istockphoto.com/id/1396814518/vector/image-coming-soon-no-photo-no-thumbnail-image-available-vector-illustration.jpg?s=612x612&w=0&k=20&c=hnh2OZgQGhf0b46-J2z7aHbIWwq8HNlSDaNp2wn_iko='} className='h-[200px] lg:h-[250px] mx-auto object-contain p-2 xl:p-3' alt="" />
                       <h1 className='text-lg lg:text-2xl font-karla font-semibold mb-1 text-center w-[95%] mx-auto line-clamp-2' title={item.itemName}>{item.itemName}</h1>
                       <p className='font-semibold mt-1 font-karla text-[16px] lg:text-lg text-blue-600'>
@@ -286,12 +340,23 @@ const Index = () => {
                       </p>
                       {item.stockAvailable === 'A' ? (
                         <div className='flex items-center h-[50px] justify-center gap-5 mt-2'>
-                          <button className='px-4 lg:px-6 py-1 lg:py-2 border rounded-full bg-blue-500 text-white hover:bg-blue-500/90 font-karla'>Learn More</button>
-                          <BsCartPlus className='text-blue-500 text-2xl hover:text-blue-700' title='add to cart' />
+                          <Link to={`/items/${item.itemID}`}>
+                            <button className='px-4 lg:px-6 py-1 lg:py-2 border rounded-full bg-blue-500 text-white hover:bg-blue-500/90 font-karla'>Learn More</button>
+                          </Link>
+                          <BsCartPlus
+                            onClick={(e) => {
+                              e.preventDefault(); // Prevents navigation
+                              e.stopPropagation(); // Stops event bubbling to the Link
+                              handleAddToCart(item);
+                            }}
+                          className='text-blue-500 text-2xl hover:text-blue-700' title='add to cart' />
                         </div>
                       ) : (
                         <div className='flex items-center h-[50px] justify-center gap-5 mt-2'>
-                          <button className='px-4 lg:px-6 py-1 lg:py-2 border rounded-full text-red-500 border-red-500 font-karla cursor-not-allowed'>Out of Stock</button>
+                          <Link to={`/items/${item.itemID}`}>
+                            <button className='px-4 lg:px-6 py-1 lg:py-2 border rounded-full bg-blue-500 text-white hover:bg-blue-500/90 font-karla'>Learn More</button>
+                          </Link>
+                          <button className='px-4 lg:px-6 py-1 lg:py-2 rounded-full text-red-500 font-karla cursor-not-allowed'>Out of Stock</button>
                         </div>
                       )}
                     </div>

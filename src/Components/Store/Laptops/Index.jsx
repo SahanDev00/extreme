@@ -4,6 +4,9 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { BsCartPlus } from 'react-icons/bs';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useCart } from '../../Cart/CartContext';
 
 const Index = () => {
 
@@ -11,6 +14,7 @@ const Index = () => {
   const [productImages, setProductImages] = useState({}); // Store images by item IDs
   const [brandName, setBrandName] = useState(''); // Store images by item IDs
   const [subCategories, setSubCategories] = useState([]); // Store images by item IDs
+  const { addToCart } = useCart(); 
 
   const fetchImageData = async (itemID) => {
     try {
@@ -25,7 +29,7 @@ const Index = () => {
         if (data.success && data.data.length > 0) {
             setProductImages(prevImages => ({
                 ...prevImages,
-                [itemID]: `${process.env.REACT_APP_IMG_URL}/${data.data[0].imageID}.jpg`
+                [itemID]: `${process.env.REACT_APP_IMG_URL}/${data.data[0].imageID}.png`
             }));
         }
         } catch (error) {
@@ -118,9 +122,25 @@ const Index = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     fetchProducts();
     fetchSubCategories();
   }, [])
+
+  const handleAddToCart = (item) => {
+    addToCart({
+      ...item,
+      quantity: 1,
+    });
+    toast.success(item.itemName + ' Added To The Cart!', {
+      toastId: 1,
+      position: "top-right",
+      autoClose: 2000,
+    });
+  };
   
 
   const brands = [
@@ -249,12 +269,23 @@ const Index = () => {
                     </p>
                     {item.stockAvailable === 'A' ? (
                       <div className='flex items-center h-[50px] justify-center gap-5 mt-2'>
-                        <button className='px-6 py-2 border rounded-full bg-blue-500 text-white hover:bg-blue-500/90 font-karla'>Learn More</button>
-                        <BsCartPlus className='text-blue-500 text-2xl hover:text-blue-700' title='add to cart' />
+                        <Link to={`/items/${item.itemID}`}>
+                          <button className='px-4 lg:px-6 py-1 lg:py-2 border rounded-full bg-blue-500 text-white hover:bg-blue-500/90 font-karla'>Learn More</button>
+                        </Link>
+                        <BsCartPlus
+                                    onClick={(e) => {
+                                      e.preventDefault(); // Prevents navigation
+                                      e.stopPropagation(); // Stops event bubbling to the Link
+                                      handleAddToCart(item);
+                                    }}
+                        className='text-blue-500 text-2xl hover:text-blue-700' title='add to cart' />
                       </div>
                     ) : (
                       <div className='flex items-center h-[50px] justify-center gap-5 mt-2'>
-                        <button className='px-6 py-2 border rounded-full text-red-500 border-red-500 font-karla cursor-not-allowed'>Out of Stock</button>
+                        <Link to={`/items/${item.itemID}`}>
+                          <button className='px-4 lg:px-6 py-1 lg:py-2 border rounded-full bg-blue-500 text-white hover:bg-blue-500/90 font-karla'>Learn More</button>
+                        </Link>
+                        <button className='px-4 lg:px-6 py-1 lg:py-2 rounded-full text-red-500 font-karla cursor-not-allowed'>Out of Stock</button>
                       </div>
                     )}
                   </div>

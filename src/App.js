@@ -12,6 +12,15 @@ import KeyboardsMouse from "./Pages/KeyboardsMouse/KeyboardsMouse";
 import Accessories from "./Pages/Accessories/Accessories";
 import Casings from "./Pages/Casings/Casings";
 import AllProducts from "./Pages/AllProducts/AllProducts";
+import SearchedProducts from "./Pages/SearchedProducts/SearchedProducts";
+import AccountPage from "./Pages/Profile/AccountPage";
+import LoginPage from "./Pages/Profile/LoginPage";
+import SignIn from "./Components/Profile/SignIn";
+import { ToastContainer } from "react-toastify";
+import ProductView from "./Pages/ProductView/ProductView";
+import Cart from "./Pages/Cart/Cart";
+import CheckoutPage from "./Pages/Cart/CheckoutPage";
+import OrdersPage from "./Pages/Orders/OrdersPage";
 
 function App() {
   return (
@@ -30,9 +39,18 @@ function App() {
           <Route path="/accessories" element={<Accessories />} />
           <Route path="/casings" element={<Casings />} />
           <Route path="/all-products" element={<AllProducts />} />
+          <Route path="search/:q" element={<SearchedProducts />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/items/:itemID" element={<ProductView />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/orders" element={<OrdersPage />} />
         </Routes>
         <Footer />
       </Router>
+      <ToastContainer />
     </div>
   );
 }

@@ -4,11 +4,14 @@ import { FaSearch } from 'react-icons/fa'
 import { MdOutlineShoppingBag } from 'react-icons/md'
 import { HiOutlineMenuAlt4 } from 'react-icons/hi'
 import { IoClose } from 'react-icons/io5'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import Cookies from 'js-cookie';
+import { useCart } from '../Cart/CartContext'
 
 const Navbar = () => {
 
+  const customerId = Cookies.get('customerId') || sessionStorage.getItem('customerId');
   const [isNavbar, setIsNavbar] = useState(false);
   const [isSearchBar, setIsSearchBar] = useState(false);
   const [isBag, setIsBag] = useState(false);
@@ -21,6 +24,9 @@ const Navbar = () => {
   const [keyboardMoseItems ,setKeyboardMouseItems] = useState([]);
   const [accessoriesItems ,setAccessoriesItems] = useState([]);
   const [casingItems ,setCasingItems] = useState([]);
+  const Navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+  const { getTotalItems } = useCart();
 
   useEffect(() => {
     const fetchMacItems = async () => {
@@ -186,6 +192,14 @@ const Navbar = () => {
     setIsSearchBar(false);
   }
 
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+        Navigate(`/search/${searchQuery.trim()}`);
+        setSearchQuery('')
+        setIsSearchBar(false);
+    }
+};
+
   const navItems = [
     {
       name: 'Store',
@@ -343,11 +357,21 @@ const Navbar = () => {
         ))}
 
         <FaSearch onClick={() => toggleSearchBar()} className={`hidden md:block cursor-pointer size-4 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-800'}`} />
-        <MdOutlineShoppingBag onClick={() => toggleBag()} className={`hidden md:block cursor-pointer size-5 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-800'}`} />
+          <div className='relative'> 
+            <MdOutlineShoppingBag onClick={() => toggleBag()} className={`hidden md:block cursor-pointer size-5 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-800'}`} />
+            {getTotalItems() > 0 && (
+                <p className='absolute -top-2 -right-4 bg-gray-600 text-white rounded-full px-1 text-xs hidden md:block'>{getTotalItems()}</p>
+            )}
+          </div>
 
         <div className='flex gap-6 justify-evenly items-center md:hidden relative'>
           <FaSearch onClick={() => toggleSearchBar()} className={`cursor-pointer size-4 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-800'}`} />
-          <MdOutlineShoppingBag onClick={() => toggleBag()} className={`cursor-pointer size-5 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-800'}`} />
+          <div className='relative'>
+            <MdOutlineShoppingBag onClick={() => toggleBag()} className={`cursor-pointer size-5 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-800'}`} />
+            {getTotalItems() > 0 && (
+                <p className='absolute -top-2 -right-4 bg-gray-600 text-white rounded-full px-1 text-xs md:hidden '>{getTotalItems()}</p>
+            )}
+          </div>
           <HiOutlineMenuAlt4 onClick={() => toggleNavbar()} className={`cursor-pointer size-6 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-800'}`}/>
         </div>
       </div>
@@ -359,13 +383,23 @@ const Navbar = () => {
             <div className='flex flex-col md:justify-center duration-1000 font-karla'>
               <div className='flex items-center h-[70px] gap-4'>
                 <FaSearch className={`size-6 ${isActive('/') ? 'text-gray-200' : 'text-gray-500'}`} />
-                <input type="text" placeholder='Search on Extreme...' className={`bg-transparent p-2 w-full md:w-[600px] outline-none text-lg ${isActive('/') ? 'text-gray-200' : 'text-gray-500'}`} />
+                <input
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()} 
+                  type="text" placeholder='Search on Extreme...' className={`bg-transparent p-2 w-full md:w-[600px] outline-none text-lg ${isActive('/') ? 'text-gray-200' : 'text-gray-500'}`} />
               </div>
               <div className=' flex flex-col justify-center mt-5 duration-1000'>
                   <h1 className={`font-overpass text-sm mb-2 ${isActive('/') ? 'text-gray-400' : 'text-gray-600'}`}>Quick Links</h1>
-                  <p className={`text-xl font-karla font-semibold cursor-pointer mb-1 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-600 hover:text-gray-800'}`}>Test Item 1</p>
-                  <p className={`text-xl font-karla font-semibold cursor-pointer mb-1 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-600 hover:text-gray-800'}`}>Test Item 2</p>
-                  <p className={`text-xl font-karla font-semibold cursor-pointer mb-1 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-600 hover:text-gray-800'}`}>Test Item 3</p>
+                  <Link to='/laptops' onClick={() => setIsSearchBar(false)}>
+                    <p className={`text-xl font-karla font-semibold cursor-pointer mb-1 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-600 hover:text-gray-800'}`}>Laptops</p>
+                  </Link>
+                  <Link to='/computers' onClick={() => setIsSearchBar(false)}>
+                    <p className={`text-xl font-karla font-semibold cursor-pointer mb-1 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-600 hover:text-gray-800'}`}>Computers</p>
+                  </Link>
+                  <Link to='/monitors' onClick={() => setIsSearchBar(false)}>
+                    <p className={`text-xl font-karla font-semibold cursor-pointer mb-1 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-600 hover:text-gray-800'}`}>Monitors</p>
+                  </Link>
               </div>
             </div>
           </div>
@@ -376,14 +410,37 @@ const Navbar = () => {
         <IoClose onClick={() => toggleBag()} className={`md:hidden cursor-pointer size-6 fixed top-3 right-3 duration-300 z-50 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-800'} ${isBag ? 'opacity-100 ' : 'opacity-0'}`} />
         <div className='md:w-full lg:w-[90%] xl:w-[70%] 2xl:w-[55%] flex h-full mx-auto'>
           <div className='flex flex-col md:justify-center duration-1000 font-karla p-12 sm:p-14'>
-            <p className={`text-3xl font-karla font-semibold cursor-pointer mb-1 ${isActive('/') ? 'text-gray-300 hover:text-white' : 'text-gray-500'}`}>Your Bag Is Empty</p>
-            <p className={`text-xs font-karla font-semibold mb-1 ${isActive('/') ? 'text-gray-200' : 'text-gray-500'}`}><a href="/" className={` underline cursor-pointer ${isActive('/') ? 'text-blue-300' : 'text-blue-500'}`}>Sign in</a> to see your orders</p>
+            {!customerId && (
+              <div>
+                  <p className={`text-3xl font-karla font-semibold mb-1 ${isActive('/') ? 'text-gray-300' : 'text-gray-500'}`}>Your Bag Is Empty</p>
+                  <p className={`text-xs font-karla font-semibold mb-1 ${isActive('/') ? 'text-gray-200' : 'text-gray-500'}`}><a href="/sign-in" className={` underline cursor-pointer ${isActive('/') ? 'text-blue-300' : 'text-blue-500'}`}>Sign in</a> to see your orders</p>
+              </div>     
+            )}
             <div className=' flex flex-col justify-center mt-5 duration-1000'>
                 <h1 className={`font-overpass text-sm ${isActive('/') ? 'text-gray-400' : 'text-gray-600'}`}>My Profile</h1>
-                <p className={`text-xl font-karla font-semibold cursor-pointer mb-1 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-600'}`}>Account</p>
-                <p className={`text-xl font-karla font-semibold cursor-pointer mb-1 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-600'}`}>Orders</p>
-                <p className={`text-xl font-karla font-semibold cursor-pointer mb-1 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-600'}`}>Login</p>
-                <p className={`text-xl font-karla font-semibold cursor-pointer mb-1 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-600'}`}>Sign In</p>
+                {customerId && (
+                  <div>
+                    <Link to='/account' onClick={() => setIsBag(false)}>
+                      <p className={`text-xl font-karla font-semibold cursor-pointer mb-1 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-600'}`}>Account</p>
+                    </Link>
+                    <Link to='orders' onClick={() => setIsBag(false)}>
+                      <p className={`text-xl font-karla font-semibold cursor-pointer mb-1 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-600'}`}>Orders</p>
+                    </Link>
+                  </div>
+                )}
+                <Link to='cart' onClick={() => setIsBag(false)}>
+                  <p className={`text-xl font-karla font-semibold cursor-pointer mb-1 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-600'}`}>Cart</p>
+                </Link>
+                {!customerId && (
+                  <div>
+                    <Link to='login' onClick={() => setIsBag(false)}>
+                      <p className={`text-xl font-karla font-semibold cursor-pointer mb-1 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-600'}`}>Login</p>
+                    </Link>
+                    <Link to='sign-in' onClick={() => setIsBag(false)}>
+                      <p className={`text-xl font-karla font-semibold cursor-pointer mb-1 ${isActive('/') ? 'text-gray-200 hover:text-white' : 'text-gray-500 hover:text-gray-600'}`}>Sign In</p>
+                    </Link>
+                  </div>
+                )}
             </div>
           </div>
         </div>
