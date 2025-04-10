@@ -151,17 +151,19 @@ const Index = () => {
           >
             {item.stockAvailable === 'A' ? "" : "Out of Stock"}
           </p>
-          {/* Add to Cart */}
-          <button
-            onClick={(e) => {
-              e.preventDefault(); // Prevents navigation
-              e.stopPropagation(); // Stops event bubbling to the Link
-              handleAddToCart(item);
-            }}
-            className="flex items-center gap-2 px-6 py-2 bg-blue-400 text-white hover:text-white font-medium rounded-tr-2xl rounded-bl-2xl shadow-md hover:bg-blue-500 transition">
-            <FaShoppingCart />
-            Add to Cart
-          </button>
+
+          {item.stockAvailable === 'A' && (
+            <button
+              onClick={(e) => {
+                e.preventDefault(); // Prevents navigation
+                e.stopPropagation(); // Stops event bubbling to the Link
+                handleAddToCart(item);
+              }}
+              className="flex items-center gap-2 px-6 py-2 bg-blue-400 text-white hover:text-white font-medium rounded-tr-2xl rounded-bl-2xl shadow-md hover:bg-blue-500 transition">
+              <FaShoppingCart />
+              Add to Cart
+            </button>
+          )}
         </div>
       </div>
     </div>
