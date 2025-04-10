@@ -91,7 +91,7 @@ const Index = () => {
 
   return (
     <div className='w-full pt-[50px] pb-10'>
-        <div className='w-[85%] mx-auto h-[200px] md:h-[200px] flex flex-col justify-center'>
+        <div className='w-[85%] mx-auto py-5 sm:py-0 sm:h-[200px] md:h-[200px] flex flex-col justify-center'>
             <h1 className='text-2xl sm:text-3xl md:text-4xl font-roboto font-semibold '>
                 {item.itemName}
             </h1>
