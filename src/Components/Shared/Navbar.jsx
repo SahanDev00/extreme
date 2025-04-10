@@ -482,6 +482,9 @@ const Navbar = () => {
       <div className={`absolute w-screen left-0 top-0 overflow-hidden duration-300 z-50 ${isActive('/') ? 'bg-stone-900' : 'bg-gray-50 shadow-lg'} ${isNavbar ? 'h-screen opacity-100' : 'h-0 opacity-0'}`}>
         <IoClose onClick={() => toggleNavbar()} className={`text-gray-200 hover:text-white cursor-pointer size-6 fixed top-3 right-3 duration-300 ${isSearchBar && 'hidden'} ${isBag && 'hidden'} ${isNavbar ? 'opacity-100  z-50' : 'opacity-0'}`} /> 
         <div className='h-full w-full p-12 sm:p-14'>
+          <Link to='/all-products' onClick={() => setIsNavbar(false)}>
+            <p className={`text-3xl font-karla font-semibold cursor-pointer mb-3 ${isActive('/') ? 'text-gray-200' : 'text-gray-600'}`}>All Items</p>
+          </Link>
           {navItems.map((nav, index) => (
             <Link key={index} onClick={() => setIsNavbar(false)} to={nav.Link}>
               <p className={`text-3xl font-karla font-semibold cursor-pointer mb-3 ${isActive('/') ? 'text-gray-200' : 'text-gray-600'}`}>{nav.name}</p>
