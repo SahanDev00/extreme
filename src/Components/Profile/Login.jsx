@@ -150,13 +150,16 @@ const Login = () => {
                 Login
             </button>
           </form>
-          <p className='text-sm pb-4 text-center font-semibold text-gray-500 mt-5 font-poppins'>havent signed up yet?  
+          <p className='text-sm pb-2 text-center font-semibold text-gray-500 mt-5 font-poppins'>havent signed up yet?  
             <span className='underline cursor-pointer text-blue-500 pl-2'>
               <Link to='/sign-in'>
                 Sign Up
               </Link>
             </span>
           </p>
+          <Link to='/forgot-password'>
+            <p className='text-center text-sm font-poppins text-blue-500 font-semibold cursor-pointer hover:text-cyan-600'>Forgot password?</p>
+          </Link>
     </div>
   )
 }

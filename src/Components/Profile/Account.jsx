@@ -8,12 +8,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as Dialog from '@radix-ui/react-dialog';
 
 const Account = () => {
-  const [users, setUsers] = useState([]);
+  
   const [openUserModal, setOpenUserModal] = useState(false);
   const [editUser, setEditUser] = useState({});
   const Navigate = useNavigate();
   const customerID = sessionStorage.getItem('customerId') || Cookies.get('customerId');
-
+  const [users, setUsers] = useState([]);
   const handleSubmit = async (e) => {
     e.preventDefault();
 

@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e3255d26.css",
+    "main.js": "/static/js/main.e0c0f419.js",
+    "static/js/52.7be4d9fd.chunk.js": "/static/js/52.7be4d9fd.chunk.js",
+    "static/js/82.727b3d3b.chunk.js": "/static/js/82.727b3d3b.chunk.js",
+    "static/js/265.de4a99b4.chunk.js": "/static/js/265.de4a99b4.chunk.js",
+    "static/media/computer.png": "/static/media/computer.ff9964e9e2a69c1edf62.png",
+    "static/media/motherboard.png": "/static/media/motherboard.8922515d72fff6270829.png",
+    "static/media/keyboard-mouse.png": "/static/media/keyboard-mouse.8ee01938b9c486329dbc.png",
+    "static/media/headset.png": "/static/media/headset.5800662e42a5bee475da.png",
+    "static/media/monitor.png": "/static/media/monitor.62e5d72988bf324a9d49.png",
+    "static/media/harddrive.png": "/static/media/harddrive.c20f1fb793bf743ec6c7.png",
+    "static/media/laptop.png": "/static/media/laptop.7a3100bfa46933ffc0e4.png",
+    "static/media/iphone.png": "/static/media/iphone.f2fb34398ee9c42e117f.png",
+    "static/media/woofer.png": "/static/media/woofer.7110177a1de504f6345f.png",
+    "static/media/gpu.png": "/static/media/gpu.e507cc2f7948cb9264a3.png",
+    "static/media/mac.jpg": "/static/media/mac.66a76d8f86f9be204a2d.jpg",
+    "static/media/logo-mini.png": "/static/media/logo-mini.c95d93d0c6042438609f.png",
+    "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.e3255d26.css",
+    "static/js/main.e0c0f419.js"
+  ]
+}

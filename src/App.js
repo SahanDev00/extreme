@@ -23,6 +23,8 @@ import CheckoutPage from "./Pages/Cart/CheckoutPage";
 import OrdersPage from "./Pages/Orders/OrdersPage";
 import ContactUsPage from "./Pages/Support/ContactUsPage";
 import AboutUsPage from "./Pages/Support/AboutUsPage";
+import ForgotPassword from "./Components/Profile/ForgotPassword";
+import ResetPassword from "./Components/Profile/ResetPassword";
 
 function App() {
   return (
@@ -51,6 +53,8 @@ function App() {
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
           <Route path="/about" element={<AboutUsPage />} />
+          <Route path='/forgot-password' element={<ForgotPassword/>} />
+          <Route path="/reset-password/:tokenID" element={<ResetPassword />} />
         </Routes>
         <Footer />
       </Router>
