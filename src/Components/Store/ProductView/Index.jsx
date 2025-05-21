@@ -146,13 +146,13 @@ const Index = () => {
           {/* Stock Availability */}
           <p
             className={`font-roboto ${
-              item.stockAvailable === 'A' ? "" : "text-red-500"
+              item.stockBalance > 0 ? "" : "text-red-500"
             }`}
           >
-            {item.stockAvailable === 'A' ? "" : "Out of Stock"}
+            {item.stockBalance > 0 ? "" : "Out of Stock"}
           </p>
 
-          {item.stockAvailable === 'A' && (
+          {item.stockBalance > 0 && (
             <button
               onClick={(e) => {
                 e.preventDefault(); // Prevents navigation

@@ -51,7 +51,7 @@ const Index = () => {
       })
 
       const sortedData = response.data.data.sort((a, b) =>
-        a.stockAvailable === 'A' ? -1 : b.stockAvailable === 'A' ? 1 : 0
+        a.stockBalance > 0 ? -1 : b.stockBalance > 0 ? 1 : 0
       );
       setItems(sortedData);
       
@@ -69,7 +69,7 @@ const Index = () => {
       })
 
       const sortedData = response.data.data.sort((a, b) =>
-        a.stockAvailable === 'A' ? -1 : b.stockAvailable === 'A' ? 1 : 0
+        a.stockBalance > 0 ? -1 : b.stockBalance > 0 ? 1 : 0
       );
       setItems(sortedData);
     } catch (err) {
@@ -99,7 +99,7 @@ const Index = () => {
       })
       fetchBrandName(BrandID);
       const sortedData = response.data.data.sort((a, b) =>
-        a.stockAvailable === 'A' ? -1 : b.stockAvailable === 'A' ? 1 : 0
+        a.stockBalance > 0 ? -1 : b.stockBalance > 0 ? 1 : 0
       );
       setItems(sortedData);
     } catch (err) {
@@ -266,7 +266,7 @@ const Index = () => {
                     <p className='font-semibold mt-1 font-karla text-lg text-blue-600'>
                       Rs. {Number(item.retailPrice).toLocaleString('en-LK')}
                     </p>
-                    {item.stockAvailable === 'A' ? (
+                    {item.stockBalance > 0 ? (
                       <div className='flex items-center h-[50px] justify-center gap-5 mt-2'>
                         <Link to={`/items/${item.itemID}`}>
                           <button className='px-4 lg:px-6 py-1 lg:py-2 border rounded-full bg-blue-500 text-white hover:bg-blue-500/90 font-karla'>Learn More</button>
