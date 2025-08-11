@@ -225,8 +225,9 @@ const SignIn = () => {
     // Mobile number validation
     if (!formData.mobile) {
       newErrors.mobile = "Mobile number is required";
-    } else if (!/^\d{10,15}$/.test(formData.mobile)) {
-      newErrors.mobile = "Mobile number must be between 10 to 15 digits long.";
+    } else if (!/^[1-9]\d{9,14}$/.test(formData.mobile)) {
+      newErrors.mobile =
+        "Mobile number must start with country code and be 10 to 15 digits long (no + sign).";
     }
 
     setErrors(newErrors);
