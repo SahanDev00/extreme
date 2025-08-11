@@ -53,7 +53,7 @@ function App() {
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
           <Route path="/about" element={<AboutUsPage />} />
-          <Route path='/forgot-password' element={<ForgotPassword/>} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:tokenID" element={<ResetPassword />} />
         </Routes>
         <Footer />
