@@ -113,13 +113,11 @@ const SignIn = () => {
 
         const result = await response.json();
 
-        {
-          /* if (!result.success) {
+        /* if (!result.success) {
           toast.error(result.errorMessage, {
             position: "top-right",
           });
         } */
-        }
 
         if (response.ok) {
           if (result.success) {
