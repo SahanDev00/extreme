@@ -1,19 +1,66 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { FaRegEdit } from 'react-icons/fa';
-import Cookies from 'js-cookie';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Link, useNavigate } from 'react-router-dom';
-import * as Dialog from '@radix-ui/react-dialog';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { FaRegEdit } from "react-icons/fa";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Link, useNavigate } from "react-router-dom";
+import * as Dialog from "@radix-ui/react-dialog";
 
 const Account = () => {
-  
   const [openUserModal, setOpenUserModal] = useState(false);
   const [editUser, setEditUser] = useState({});
   const Navigate = useNavigate();
-  const customerID = sessionStorage.getItem('customerId') || Cookies.get('customerId');
+  const customerID =
+    sessionStorage.getItem("customerId") || Cookies.get("customerId");
   const [users, setUsers] = useState([]);
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    const errors = {};
+
+    if (!editUser.salutation) errors.salutation = "Salutation is required";
+    if (!editUser.firstName) errors.firstName = "First Name is required";
+    if (!editUser.middleName) errors.middleName = "Middle Name is required";
+    if (!editUser.lastName) errors.lastName = "Last Name is required";
+    if (!editUser.loginEmail) errors.loginEmail = "Email is required";
+    if (!editUser.telephoneMobile) {
+      errors.telephoneMobile = "Mobile Number is required";
+    } else {
+      // Regex: must be only numbers, no +, start with country code (2+ digits), then rest
+      const mobileRegex = /^[1-9][0-9]{9,14}$/;
+      // Explanation:
+      // ^[1-9]   → cannot start with 0 or +
+      // [0-9]{9,14} → must have 9–14 more digits (total 10–15 digits, covers most intl numbers)
+
+      if (!mobileRegex.test(editUser.telephoneMobile)) {
+        errors.telephoneMobile =
+          "Enter a valid mobile number with country code (no + sign)";
+      }
+    }
+
+    if (!editUser.loginPassword) errors.loginPassword = "Password is required";
+
+    if (!editUser.addressLine1)
+      errors.addressLine1 = "Address Line 1 is required";
+    if (!editUser.city) errors.city = "City is required";
+    if (!editUser.postalCode) errors.postalCode = "Postal Code is required";
+    if (!editUser.country) errors.country = "Country is required";
+
+    return errors;
+  };
+
+  const handleSave = () => {
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return; // stop if validation fails
+    }
+
+    // ✅ proceed with saving (API call or state update)
+    handleSubmit();
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -35,29 +82,32 @@ const Account = () => {
     };
 
     try {
-      const response = await axios.put(`${process.env.REACT_APP_API_URL}/Customer`, customerData, {
-        headers: {
-          'Content-Type': 'application/json',
-          'APIKey': process.env.REACT_APP_API_KEY,
-        },
-      });
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_URL}/Customer`,
+        customerData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            APIKey: process.env.REACT_APP_API_KEY,
+          },
+        }
+      );
       if (response.data.success) {
-        toast.success('Profile updated successfuly!', {
+        toast.success("Profile updated successfuly!", {
           position: "top-right",
           autoClose: 2000, // Automatically close after 3 seconds
         });
         window.location.reload();
       } else {
-        toast.error('Error updating profile!', {
+        toast.error("Error updating profile!", {
           position: "top-right",
         });
       }
     } catch (error) {
-      console.error('Error updating profile:', error);
-      toast.error('Error updating profile!', {
+      console.error("Error updating profile:", error);
+      toast.error("Error updating profile!", {
         position: "top-right",
       });
-      
     }
   };
 
@@ -65,9 +115,12 @@ const Account = () => {
     const fetchData = async () => {
       try {
         const apiKey = process.env.REACT_APP_API_KEY;
-        const result = await axios.get(`${process.env.REACT_APP_API_URL}/Customer/${customerID}`, {
-          headers: { 'APIKey': apiKey }
-        });
+        const result = await axios.get(
+          `${process.env.REACT_APP_API_URL}/Customer/${customerID}`,
+          {
+            headers: { APIKey: apiKey },
+          }
+        );
 
         setUsers(result.data.data);
         setEditUser(result.data.data);
@@ -81,63 +134,94 @@ const Account = () => {
 
   const handleLogout = () => {
     sessionStorage.clear();
-    Cookies.remove('customerId');
-    Cookies.remove('firstName');
-    Cookies.remove('lastName');
-    Cookies.remove('email');
+    Cookies.remove("customerId");
+    Cookies.remove("firstName");
+    Cookies.remove("lastName");
+    Cookies.remove("email");
 
-    toast.success('Successfully logged out!', { position: "top-right", autoClose: 2000 });
-    setTimeout(() => Navigate('/'), 2000);
+    toast.success("Successfully logged out!", {
+      position: "top-right",
+      autoClose: 2000,
+    });
+    setTimeout(() => Navigate("/"), 2000);
   };
 
-  return ( 
-    <div className='w-full min-h-screen pt-[50px]'>
-      <div className='w-[85%] mx-auto h-[200px] md:h-[200px] flex flex-col justify-center'>
-          <h1 className='text-3xl sm:text-4xl md:text-5xl font-roboto font-semibold md:w-[700px]'>
-            {users.firstName}'s Account. <span className='text-gray-500'>Information and Shipping Details.</span>
-          </h1>
+  return (
+    <div className="w-full min-h-screen pt-[50px]">
+      <div className="w-[85%] mx-auto h-[200px] md:h-[200px] flex flex-col justify-center">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-roboto font-semibold md:w-[700px]">
+          {users.firstName}'s Account.{" "}
+          <span className="text-gray-500">
+            Information and Shipping Details.
+          </span>
+        </h1>
       </div>
 
-      <div className='w-[90%] xl:w-[85%] mx-auto pt-5'>
-
+      <div className="w-[90%] xl:w-[85%] mx-auto pt-5">
         {/* USER INFO */}
-        <div className='bg-yellow-50 p-5 md:w-[400px] shadow font-karla mb-5 relative'>
-          <FaRegEdit 
-            className='absolute right-2 top-2 cursor-pointer' 
-            onClick={() => setOpenUserModal(true)} 
+        <div className="bg-yellow-50 p-5 md:w-[400px] shadow font-karla mb-5 relative">
+          <FaRegEdit
+            className="absolute right-2 top-2 cursor-pointer"
+            onClick={() => setOpenUserModal(true)}
           />
-          <p className='text-lg uppercase pb-2 font-poppins'>{users.firstName}'s Information</p>
-          {users.salutation === 'adfasgfdsgfsegwewszdfzfzfzgfef' && (
+          <p className="text-lg uppercase pb-2 font-poppins">
+            {users.firstName}'s Information
+          </p>
+          {users.salutation === "adfasgfdsgfsegwewszdfzfzfzgfef" && (
             <div>
-              <p className='hidden'>{users.salutation}'s Information</p>
-              <p className='hidden'>{users.middleName}</p>
-              <p className='hidden'>{users.lastName}</p>
-              <p className='hidden'>{users.loginPassword}</p>
-              <p className='hidden'>{users.confirmPassword}</p>
-              <p className='hidden'>{users.postalCode}</p>
+              <p className="hidden">{users.salutation}'s Information</p>
+              <p className="hidden">{users.middleName}</p>
+              <p className="hidden">{users.lastName}</p>
+              <p className="hidden">{users.loginPassword}</p>
+              <p className="hidden">{users.confirmPassword}</p>
+              <p className="hidden">{users.postalCode}</p>
             </div>
-          )} 
-          <p className='pl-3'><span className='font-medium'>Name:</span> {users.customerDisplay}</p>
-          <p className='pl-3'><span className='font-medium'>Email:</span> {users.loginEmail}</p>
-          <p className='pl-3'><span className='font-medium'>Mobile Number:</span> {users.telephoneMobile}</p>
-          <p className='pl-3'><span className='font-medium'>Password:</span> **********</p>
+          )}
+          <p className="pl-3">
+            <span className="font-medium">Name:</span> {users.customerDisplay}
+          </p>
+          <p className="pl-3">
+            <span className="font-medium">Email:</span> {users.loginEmail}
+          </p>
+          <p className="pl-3">
+            <span className="font-medium">Mobile Number:</span>{" "}
+            {users.telephoneMobile}
+          </p>
+          <p className="pl-3">
+            <span className="font-medium">Password:</span> **********
+          </p>
         </div>
 
         {/* SHIPPING INFO */}
-        <div className='bg-yellow-50 p-5 md:w-[500px] shadow font-karla mb-5 relative'>
-          <p className='text-lg uppercase pb-2 font-poppins'>Shipping Information</p>
-          <p className='pl-3'><span className='font-medium'>Address Line 1:</span> {users.addressLine1}</p>
-          <p className='pl-3'><span className='font-medium'>Address Line 2:</span> {users.addressLine2}</p>
-          <p className='pl-3'><span className='font-medium'>City:</span> {users.city}</p>
-          <p className='pl-3'><span className='font-medium'>Country:</span> {users.country}</p>
+        <div className="bg-yellow-50 p-5 md:w-[500px] shadow font-karla mb-5 relative">
+          <p className="text-lg uppercase pb-2 font-poppins">
+            Shipping Information
+          </p>
+          <p className="pl-3">
+            <span className="font-medium">Address Line 1:</span>{" "}
+            {users.addressLine1}
+          </p>
+          <p className="pl-3">
+            <span className="font-medium">Address Line 2:</span>{" "}
+            {users.addressLine2}
+          </p>
+          <p className="pl-3">
+            <span className="font-medium">City:</span> {users.city}
+          </p>
+          <p className="pl-3">
+            <span className="font-medium">Country:</span> {users.country}
+          </p>
         </div>
 
-        <Link to='/orders'>
-          <button className='px-5 py-2 border border-black font-karla hover:bg-yellow-50 hover:border-amber-400 duration-100 mb-10 md:mb-0'>My Orders</button>
+        <Link to="/orders">
+          <button className="px-5 py-2 border border-black font-karla hover:bg-yellow-50 hover:border-amber-400 duration-100 mb-10 md:mb-0">
+            My Orders
+          </button>
         </Link>
-        <button 
-          onClick={handleLogout} 
-          className='px-5 py-2 border border-red-500 text-red-500 hover:border-amber hover:bg-red-500 font-karla hover:text-white duration-100 mb-10 md:mb-0 ml-3'>
+        <button
+          onClick={handleLogout}
+          className="px-5 py-2 border border-red-500 text-red-500 hover:border-amber hover:bg-red-500 font-karla hover:text-white duration-100 mb-10 md:mb-0 ml-3"
+        >
           Log Out
         </button>
 
@@ -145,83 +229,139 @@ const Account = () => {
         <Dialog.Root open={openUserModal} onOpenChange={setOpenUserModal}>
           <Dialog.Overlay className="fixed inset-0 bg-black/50 shadow-sm z-50" />
           <Dialog.Content className="fixed max-h-[95vh] overflow-y-auto z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-5 rounded-md w-full max-w-[90%] md:max-w-[70%] lg:max-w-[50%]">
-            <Dialog.Title className="text-xl font-bold font-karla">Edit User Information</Dialog.Title>
-            
+            <Dialog.Title className="text-xl font-bold font-karla">
+              Edit User Information
+            </Dialog.Title>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4 font-karla">
               {/* Left Side - User Info */}
               <div className="w-full">
                 <label className="block font-medium">Salutation</label>
-                <input 
-                  type="text" 
-                  name='salutation'
-                  value={editUser.salutation} 
-                  onChange={(e) => setEditUser({ ...editUser, salutation: e.target.value })}
+                <input
+                  type="text"
+                  name="salutation"
+                  required
+                  value={editUser.salutation}
+                  onChange={(e) =>
+                    setEditUser({ ...editUser, salutation: e.target.value })
+                  }
                   className="w-full p-2 border rounded-md"
                 />
+                {errors.salutation && (
+                  <p className="text-sm text-red-500">{errors.salutation}</p>
+                )}
 
                 <label className="block mt-2 font-medium">First Name</label>
-                <input 
-                  type="text" 
-                  name='firstName'
-                  value={editUser.firstName} 
-                  onChange={(e) => setEditUser({ ...editUser, firstName: e.target.value })}
+                <input
+                  type="text"
+                  name="firstName"
+                  required
+                  value={editUser.firstName}
+                  onChange={(e) =>
+                    setEditUser({ ...editUser, firstName: e.target.value })
+                  }
                   className="w-full p-2 border rounded-md"
                 />
+                {errors.firstName && (
+                  <p className="text-sm text-red-500">{errors.firstName}</p>
+                )}
 
                 <label className="block mt-2 font-medium">Middle Name</label>
-                <input 
-                  type="text" 
-                  name='middleName'
-                  value={editUser.middleName} 
-                  onChange={(e) => setEditUser({ ...editUser, middleName: e.target.value })}
+                <input
+                  type="text"
+                  name="middleName"
+                  required
+                  value={editUser.middleName}
+                  onChange={(e) =>
+                    setEditUser({ ...editUser, middleName: e.target.value })
+                  }
                   className="w-full p-2 border rounded-md"
                 />
+                {errors.middleName && (
+                  <p className="text-sm text-red-500">{errors.middleName}</p>
+                )}
 
                 <label className="block mt-2 font-medium">Last Name</label>
-                <input 
-                  type="text" 
-                  name='lastName'
-                  value={editUser.lastName} 
-                  onChange={(e) => setEditUser({ ...editUser, lastName: e.target.value })}
+                <input
+                  type="text"
+                  name="lastName"
+                  required
+                  value={editUser.lastName}
+                  onChange={(e) =>
+                    setEditUser({ ...editUser, lastName: e.target.value })
+                  }
                   className="w-full p-2 border rounded-md"
                 />
+                {errors.lastName && (
+                  <p className="text-sm text-red-500">{errors.lastName}</p>
+                )}
 
                 <label className="block mt-2 font-medium">Email</label>
-                <input 
-                  type="email" 
-                  name='email'
-                  value={editUser.loginEmail} 
-                  onChange={(e) => setEditUser({ ...editUser, loginEmail: e.target.value })}
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  value={editUser.loginEmail}
+                  onChange={(e) =>
+                    setEditUser({ ...editUser, loginEmail: e.target.value })
+                  }
                   className="w-full p-2 border rounded-md"
                 />
+                {errors.loginEmail && (
+                  <p className="text-sm text-red-500">{errors.loginEmail}</p>
+                )}
 
                 <label className="block mt-2 font-medium">Mobile Number</label>
-                <input 
-                  type="text" 
-                  name='mobile'
-                  value={editUser.telephoneMobile} 
-                  onChange={(e) => setEditUser({ ...editUser, telephoneMobile: e.target.value })}
+                <input
+                  type="text"
+                  name="mobile"
+                  required
+                  value={editUser.telephoneMobile}
+                  onChange={(e) =>
+                    setEditUser({
+                      ...editUser,
+                      telephoneMobile: e.target.value,
+                    })
+                  }
                   className="w-full p-2 border rounded-md"
                 />
+                {errors.telephoneMobile && (
+                  <p className="text-sm text-red-500">
+                    {errors.telephoneMobile}
+                  </p>
+                )}
 
                 <label className="block mt-2 font-medium">Password</label>
-                <input 
-                  type="password" 
-                  name='password'
-                  value={editUser.loginPassword} 
-                  onChange={(e) => setEditUser({ ...editUser, loginPassword: e.target.value })}
+                <input
+                  type="password"
+                  name="password"
+                  value={editUser.loginPassword}
+                  onChange={(e) =>
+                    setEditUser({ ...editUser, loginPassword: e.target.value })
+                  }
                   className="w-full p-2 border rounded-md"
                 />
-                <label className="block mt-2 font-medium">Confirm Password</label>
-                <input 
-                  type="password" 
-                  name='confirmPassword'
-                  value={editUser.confirmPassword  || ''}
-                  onChange={(e) => setEditUser({ ...editUser, confirmPassword: e.target.value })}
+                {errors.loginPassword && (
+                  <p className="text-sm text-red-500">{errors.loginPassword}</p>
+                )}
+                <label className="block mt-2 font-medium">
+                  Confirm Password
+                </label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={editUser.confirmPassword || ""}
+                  onChange={(e) =>
+                    setEditUser({
+                      ...editUser,
+                      confirmPassword: e.target.value,
+                    })
+                  }
                   className="w-full p-2 border rounded-md"
-                  />
-                  {editUser.confirmPassword && editUser.confirmPassword !== editUser.loginPassword && (
-                    <p className='text-sm text-red'>Password Does not match</p>
+                />
+                {editUser.confirmPassword &&
+                  editUser.confirmPassword !== editUser.loginPassword && (
+                    <p className="text-sm text-red">Password Does not match</p>
                   )}
               </div>
 
@@ -230,55 +370,88 @@ const Account = () => {
                 <h2 className="text-lg font-bold">Edit Shipping Information</h2>
 
                 <label className="block mt-2 font-medium">Address Line 1</label>
-                <input 
-                  type="text" 
-                  name='addressLine1'
-                  value={editUser.addressLine1} 
-                  onChange={(e) => setEditUser({ ...editUser, addressLine1: e.target.value })}
+                <input
+                  type="text"
+                  name="addressLine1"
+                  required
+                  value={editUser.addressLine1}
+                  onChange={(e) =>
+                    setEditUser({ ...editUser, addressLine1: e.target.value })
+                  }
                   className="w-full p-2 border rounded-md"
                 />
+                {errors.addressLine1 && (
+                  <p className="text-sm text-red-500">{errors.addressLine1}</p>
+                )}
 
                 <label className="block mt-2 font-medium">Address Line 2</label>
-                <input 
-                  type="text" 
-                  name='addressLine2'
-                  value={editUser.addressLine2} 
-                  onChange={(e) => setEditUser({ ...editUser, addressLine2: e.target.value })}
+                <input
+                  type="text"
+                  name="addressLine2"
+                  value={editUser.addressLine2}
+                  onChange={(e) =>
+                    setEditUser({ ...editUser, addressLine2: e.target.value })
+                  }
                   className="w-full p-2 border rounded-md"
                 />
+                {errors.addressLine2 && (
+                  <p className="text-sm text-red-500">{errors.addressLine2}</p>
+                )}
 
                 <label className="block mt-2 font-medium">City</label>
-                <input 
-                  type="text" 
-                  name='city'
-                  value={editUser.city} 
-                  onChange={(e) => setEditUser({ ...editUser, city: e.target.value })}
+                <input
+                  type="text"
+                  name="city"
+                  required
+                  value={editUser.city}
+                  onChange={(e) =>
+                    setEditUser({ ...editUser, city: e.target.value })
+                  }
                   className="w-full p-2 border rounded-md"
                 />
+                {errors.city && (
+                  <p className="text-sm text-red-500">{errors.city}</p>
+                )}
 
                 <label className="block mt-2 font-medium">Postal Code</label>
-                <input 
-                  type="text" 
-                  name='postalCode'
-                  value={editUser.postalCode} 
-                  onChange={(e) => setEditUser({ ...editUser, postalCode: e.target.value })}
+                <input
+                  type="text"
+                  name="postalCode"
+                  required
+                  value={editUser.postalCode}
+                  onChange={(e) =>
+                    setEditUser({ ...editUser, postalCode: e.target.value })
+                  }
                   className="w-full p-2 border rounded-md"
                 />
+                {errors.postalCode && (
+                  <p className="text-sm text-red-500">{errors.postalCode}</p>
+                )}
 
                 <label className="block mt-2 font-medium">Country</label>
-                <input 
-                  type="text" 
-                  name='country'
-                  value={editUser.country} 
-                  onChange={(e) => setEditUser({ ...editUser, country: e.target.value })}
+                <input
+                  type="text"
+                  name="country"
+                  required
+                  value={editUser.country}
+                  onChange={(e) =>
+                    setEditUser({ ...editUser, country: e.target.value })
+                  }
                   className="w-full p-2 border rounded-md"
                 />
+                {errors.country && (
+                  <p className="text-sm text-red-500">{errors.country}</p>
+                )}
               </div>
             </div>
 
             {/* Save Changes Button */}
             <div className="flex justify-end mt-4">
-              <button onClick={handleSubmit} className="px-4 py-2 bg-black font-karla text-white rounded-md transition">
+              <button
+                type="submit"
+                onClick={handleSave}
+                className="px-4 py-2 bg-black font-karla text-white rounded-md transition"
+              >
                 Save Changes
               </button>
             </div>

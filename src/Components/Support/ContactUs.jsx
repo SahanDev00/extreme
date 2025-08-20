@@ -1,5 +1,6 @@
-import React, { useRef } from 'react';
-import emailjs from '@emailjs/browser';
+import React, { useRef } from "react";
+import emailjs from "@emailjs/browser";
+import { toast } from "react-toastify";
 
 const ContactUs = () => {
   const form = useRef();
@@ -7,20 +8,31 @@ const ContactUs = () => {
   const sendEmail = (e) => {
     e.preventDefault();
 
-    emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_PUBLIC_KEY')
-      .then((result) => {
-          alert('Message sent successfully');
-      }, (error) => {
-          alert('Failed to send message');
-      });
+    emailjs
+      .sendForm(
+        "service_ua2ni7h",
+        "template_9qmuyy1",
+        form.current,
+        "Mcgu0mZpnQV-wXPoX"
+      )
+      .then(
+        (result) => {
+          toast.success("Message Sent Successfully!", {
+            position: "top-right",
+          });
+        },
+        (error) => {
+          alert("Failed to send message");
+        }
+      );
   };
 
   return (
     <div className="bg-white text-black min-h-screen pt-[50px] px-6 md:px-20 font-sans">
       {/* Top Heading */}
-      <div className='w-full sm:w-[90%] xl:w-[85%] mx-auto h-[200px] flex flex-col justify-center'>
-        <h1 className='text-3xl sm:text-4xl md:text-5xl font-roboto font-semibold md:w-[700px]'>
-          Contact Us. <span className='text-gray-500'>Find Support.</span>
+      <div className="w-full sm:w-[90%] xl:w-[85%] mx-auto h-[200px] flex flex-col justify-center">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-roboto font-semibold md:w-[700px]">
+          Contact Us. <span className="text-gray-500">Find Support.</span>
         </h1>
       </div>
 
@@ -31,21 +43,44 @@ const ContactUs = () => {
           <form ref={form} onSubmit={sendEmail} className="space-y-6">
             <div>
               <label className="block mb-1 text-lg">Name</label>
-              <input type="text" name="user_name" required className="w-full border border-gray-300 rounded px-4 py-2" />
+              <input
+                type="text"
+                name="user_name"
+                required
+                className="w-full border border-gray-300 rounded px-4 py-2"
+              />
             </div>
             <div>
               <label className="block mb-1 text-lg">Email</label>
-              <input type="email" name="user_email" required className="w-full border border-gray-300 rounded px-4 py-2" />
+              <input
+                type="email"
+                name="user_email"
+                required
+                className="w-full border border-gray-300 rounded px-4 py-2"
+              />
             </div>
             <div>
               <label className="block mb-1 text-lg">Mobile Number</label>
-              <input type="text" name="user_mobile" required className="w-full border border-gray-300 rounded px-4 py-2" />
+              <input
+                type="text"
+                name="user_mobile"
+                required
+                className="w-full border border-gray-300 rounded px-4 py-2"
+              />
             </div>
             <div>
               <label className="block mb-1 text-lg">Message</label>
-              <textarea name="message" rows="6" required className="w-full border border-gray-300 rounded px-4 py-2"></textarea>
+              <textarea
+                name="message"
+                rows="6"
+                required
+                className="w-full border border-gray-300 rounded px-4 py-2"
+              ></textarea>
             </div>
-            <button type="submit" className="bg-black text-white px-6 py-3 rounded hover:bg-gray-800 transition-all duration-300">
+            <button
+              type="submit"
+              className="bg-black text-white px-6 py-3 rounded hover:bg-gray-800 transition-all duration-300"
+            >
               Send Message
             </button>
           </form>
@@ -68,27 +103,39 @@ const ContactUs = () => {
 
       {/* Contact Info */}
       <div className="w-[90%] xl:w-[85%] mx-auto mt-20 font-karla pb-10">
-        <h2 className="text-3xl font-semibold mb-6 text-gray-700">Our Locations & Support</h2>
+        <h2 className="text-3xl font-semibold mb-6 text-gray-700">
+          Our Locations & Support
+        </h2>
         <div className="grid md:grid-cols-2 gap-10 text-lg">
           <div>
-            <h3 className="font-bold text-xl mb-2 text-gray-600">Head Office</h3>
-            <p className='text-gray-500'>No B12, MC Plaza, Kurunegala,<br />Sri Lanka.</p>
-            <p className='text-gray-500 mt-2'>HotLine: +94 37 223 4370</p>
-            <p className='text-gray-500'>Phone: +94 70 467 0670</p>
+            <h3 className="font-bold text-xl mb-2 text-gray-600">
+              Head Office
+            </h3>
+            <p className="text-gray-500">
+              No B12, MC Plaza, Kurunegala,
+              <br />
+              Sri Lanka.
+            </p>
+            <p className="text-gray-500 mt-2">HotLine: +94 37 223 4370</p>
+            <p className="text-gray-500">Phone: +94 70 467 0670</p>
           </div>
           <div>
             <h3 className="font-bold text-xl mb-2 text-gray-600">Branch</h3>
-            <p className='text-gray-500'>N88, Negambo Road, Kurunegala,<br />Sri Lanka.</p>
+            <p className="text-gray-500">
+              N88, Negambo Road, Kurunegala,
+              <br />
+              Sri Lanka.
+            </p>
             <p className="text-gray-500 mt-2">HotLine: +94 71 655 0655</p>
-            <p className='text-gray-500'>Phone: +94 37 2056303</p>
+            <p className="text-gray-500">Phone: +94 37 2056303</p>
           </div>
           <div>
             <h3 className="font-bold text-xl mb-2 text-gray-600">Fax</h3>
-            <p className='text-gray-500'>+94 71 880 4112</p>
+            <p className="text-gray-500">+94 71 880 4112</p>
           </div>
           <div>
             <h3 className="font-bold text-xl mb-2 text-gray-600">Support</h3>
-            <p className='text-gray-500'>info@extreme.lk</p>
+            <p className="text-gray-500">info@extreme.lk</p>
           </div>
         </div>
       </div>
