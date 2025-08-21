@@ -21,7 +21,7 @@ const Account = () => {
 
     if (!editUser.salutation) errors.salutation = "Salutation is required";
     if (!editUser.firstName) errors.firstName = "First Name is required";
-    if (!editUser.middleName) errors.middleName = "Middle Name is required";
+    //if (!editUser.middleName) errors.middleName = "Middle Name is required";
     if (!editUser.lastName) errors.lastName = "Last Name is required";
     if (!editUser.loginEmail) errors.loginEmail = "Email is required";
     if (!editUser.telephoneMobile) {
@@ -270,16 +270,12 @@ const Account = () => {
                 <input
                   type="text"
                   name="middleName"
-                  required
                   value={editUser.middleName}
                   onChange={(e) =>
                     setEditUser({ ...editUser, middleName: e.target.value })
                   }
                   className="w-full p-2 border rounded-md"
                 />
-                {errors.middleName && (
-                  <p className="text-sm text-red-500">{errors.middleName}</p>
-                )}
 
                 <label className="block mt-2 font-medium">Last Name</label>
                 <input
