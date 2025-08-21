@@ -9,6 +9,9 @@ import * as Dialog from "@radix-ui/react-dialog";
 
 const Account = () => {
   const [openUserModal, setOpenUserModal] = useState(false);
+  // state
+  const [changePassword, setChangePassword] = useState(false);
+
   const [editUser, setEditUser] = useState({});
   const Navigate = useNavigate();
   const customerID =
@@ -327,38 +330,65 @@ const Account = () => {
                   </p>
                 )}
 
-                <label className="block mt-2 font-medium">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  value={editUser.loginPassword}
-                  onChange={(e) =>
-                    setEditUser({ ...editUser, loginPassword: e.target.value })
-                  }
-                  className="w-full p-2 border rounded-md"
-                />
-                {errors.loginPassword && (
-                  <p className="text-sm text-red-500">{errors.loginPassword}</p>
+                {/* Toggle change password */}
+                <div className="flex items-center gap-2 mt-2">
+                  <input
+                    type="checkbox"
+                    id="changePassword"
+                    checked={changePassword}
+                    onChange={(e) => setChangePassword(e.target.checked)}
+                    className="w-4 h-4"
+                  />
+                  <label htmlFor="changePassword" className="font-medium">
+                    Change Password
+                  </label>
+                </div>
+
+                {/* Show password fields only if changePassword is true */}
+                {changePassword && (
+                  <div>
+                    <label className="block mt-2 font-medium">Password</label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={editUser.loginPassword || ""}
+                      onChange={(e) =>
+                        setEditUser({
+                          ...editUser,
+                          loginPassword: e.target.value,
+                        })
+                      }
+                      className="w-full p-2 border rounded-md"
+                    />
+                    {errors.loginPassword && (
+                      <p className="text-sm text-red-500">
+                        {errors.loginPassword}
+                      </p>
+                    )}
+
+                    <label className="block mt-2 font-medium">
+                      Confirm Password
+                    </label>
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      value={editUser.confirmPassword || ""}
+                      onChange={(e) =>
+                        setEditUser({
+                          ...editUser,
+                          confirmPassword: e.target.value,
+                        })
+                      }
+                      className="w-full p-2 border rounded-md"
+                    />
+                    {editUser.confirmPassword &&
+                      editUser.confirmPassword !== editUser.loginPassword && (
+                        <p className="text-sm text-red-500">
+                          Password does not match
+                        </p>
+                      )}
+                  </div>
                 )}
-                <label className="block mt-2 font-medium">
-                  Confirm Password
-                </label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  value={editUser.confirmPassword || ""}
-                  onChange={(e) =>
-                    setEditUser({
-                      ...editUser,
-                      confirmPassword: e.target.value,
-                    })
-                  }
-                  className="w-full p-2 border rounded-md"
-                />
-                {editUser.confirmPassword &&
-                  editUser.confirmPassword !== editUser.loginPassword && (
-                    <p className="text-sm text-red">Password Does not match</p>
-                  )}
               </div>
 
               {/* Right Side - Shipping Info */}
