@@ -50,7 +50,7 @@ const Account = () => {
     return errors;
   };
 
-  const handleSave = () => {
+  const handleSave = (e) => {
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -58,7 +58,7 @@ const Account = () => {
     }
 
     // ✅ proceed with saving (API call or state update)
-    handleSubmit();
+    handleSubmit(e);
   };
 
   const handleSubmit = async (e) => {
