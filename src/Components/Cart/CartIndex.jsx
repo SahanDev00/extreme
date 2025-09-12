@@ -67,7 +67,8 @@ const CartIndex = () => {
     if (isLoggedIn()) {
       navigate("/checkout");
     } else {
-      navigate("/sign-in");
+      sessionStorage.setItem("redirectAfterLogin", "/checkout");
+      navigate("/login");
     }
   };
 

@@ -143,7 +143,14 @@ const SignIn = () => {
               autoClose: 2000,
             });
             setTimeout(() => {
-              navigate("/");
+              if (sessionStorage.getItem("redirectAfterLogin")) {
+                const redirectPath =
+                  sessionStorage.getItem("redirectAfterLogin");
+                sessionStorage.removeItem("redirectAfterLogin");
+                navigate(redirectPath);
+              } else {
+                navigate("/");
+              }
             }, 2000);
           } else {
             toast.error(result.errorMessage, {
