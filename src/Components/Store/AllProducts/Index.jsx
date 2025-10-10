@@ -191,39 +191,21 @@ const Index = () => {
 
   const brands = [
     {
-      name: "ACER",
-      img: "https://static.vecteezy.com/system/resources/thumbnails/019/766/419/small/acer-logo-acer-icon-transparent-free-png.png",
-      BrandID: "BRD_007",
-    },
-    {
       name: "ASUS",
       img: "https://static.cdnlogo.com/logos/a/92/asus.png",
       BrandID: "BRD003",
     },
-    {
-      name: "DELL",
-      img: "https://www.pngall.com/wp-content/uploads/13/Dell-Logo.png",
-      BrandID: "BRD_008",
-    },
+
     {
       name: "HP",
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqJUAqZX7gBRJsMprvMyUBfjD6jaL34zasEA&s",
       BrandID: "BRD014",
     },
-    {
-      name: "LENOVO",
-      img: "https://static.vecteezy.com/system/resources/previews/020/927/282/non_2x/lenovo-logo-brand-phone-symbol-name-black-design-china-mobile-illustration-free-vector.jpg",
-      BrandID: "BRD_009",
-    },
+
     {
       name: "MSI",
       img: "https://logowik.com/content/uploads/images/msi-new-20223710.jpg",
       BrandID: "BRD002",
-    },
-    {
-      name: "TOSHIBA",
-      img: "https://www.vhv.rs/dpng/d/411-4118000_toshiba-logo-black-and-white-hd-png-download.png",
-      BrandID: "BRD_010",
     },
   ];
 
