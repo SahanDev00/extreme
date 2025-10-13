@@ -25,6 +25,9 @@ import ContactUsPage from "./Pages/Support/ContactUsPage";
 import AboutUsPage from "./Pages/Support/AboutUsPage";
 import ForgotPassword from "./Components/Profile/ForgotPassword";
 import ResetPassword from "./Components/Profile/ResetPassword";
+import Privacy from "./Components/Support/Privacy";
+import Return from "./Components/Support/Return";
+import Terms from "./Components/Support/Terms";
 
 function App() {
   return (
@@ -53,6 +56,9 @@ function App() {
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
           <Route path="/about" element={<AboutUsPage />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/return-policy" element={<Return />} />
+          <Route path="/terms-and-conditions" element={<Terms />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:tokenID" element={<ResetPassword />} />
         </Routes>
